@@ -1,0 +1,12 @@
+FROM cyclus/cycamore:stable
+
+RUN apt-get update && apt-get install -y ruby ruby-dev postgresql-client libpq-dev
+
+RUN gem install bundler
+
+COPY . /app
+WORKDIR /app
+
+RUN  bundle update && bundle install
+
+CMD bundle exec sidekiq -e default

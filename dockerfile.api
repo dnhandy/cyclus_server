@@ -1,0 +1,11 @@
+FROM ruby:alpine
+
+RUN gem install bundler
+
+COPY . /app
+WORKDIR /app
+
+RUN apk add --update ruby-dev build-base postgresql-client postgresql-dev
+
+RUN bundle update && bundle install
+CMD bundle exec rake db:migrate && bundle exec rails s
