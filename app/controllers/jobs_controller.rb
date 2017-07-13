@@ -1,16 +1,19 @@
 class JobsController < ApplicationController
-  before_action :set_job, only: [:show, :update, :destroy]
+  before_action :set_job, only: [:show, :output_file, :update, :destroy]
 
   # GET /jobs
   def index
     @jobs = Job.all
-
     render json: @jobs
   end
 
   # GET /jobs/1
   def show
     render json: @job
+  end
+
+  def output_file
+    send_data @job.output_file, filename: "#{@job.id}.sqllite", type: "application/octet-stream"
   end
 
   # POST /jobs
@@ -47,6 +50,6 @@ class JobsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def job_params
-      params.require(:job).permit(:input_file_name, :output_file)
+      params.require(:job).permit(:input_file_id, :output_file)
     end
 end
