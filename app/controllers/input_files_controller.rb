@@ -34,23 +34,7 @@ class InputFilesController < ApplicationController
       render json: @input_file.errors, status: :unprocessable_entity
     end
   end
-
-  # PATCH/PUT /input_files/1
-  def update
-    if @input_file.update(input_file_params)
-      if (@input_file.content)
-        uri = URI::Data.new(@input_file.content)
-        @input_file.content = uri.data
-      end
-
-      if @input_file.save
-        render json: @input_file
-      end
-    else
-      render json: @input_file.errors, status: :unprocessable_entity
-    end
-  end
-
+  
   # DELETE /input_files/1
   def destroy
     @input_file.destroy

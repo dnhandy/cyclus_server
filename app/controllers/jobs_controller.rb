@@ -3,8 +3,12 @@ class JobsController < ApplicationController
 
   # GET /jobs
   def index
-    @jobs = Job.all
-    render json: @jobs
+    begin
+      @jobs = Job.all
+      render json: @jobs
+    rescue
+      puts $!
+    end
   end
 
   # GET /jobs/1
@@ -18,20 +22,14 @@ class JobsController < ApplicationController
 
   # POST /jobs
   def create
+    puts job_params
     @job = Job.new(job_params)
+
+    @job.status = 'Pending'
 
     if @job.save
       CyclusWorker.perform_async(@job.id)
       render json: @job, status: :created, location: @job
-    else
-      render json: @job.errors, status: :unprocessable_entity
-    end
-  end
-
-  # PATCH/PUT /jobs/1
-  def update
-    if @job.update(job_params)
-      render json: @job
     else
       render json: @job.errors, status: :unprocessable_entity
     end

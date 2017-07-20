@@ -1,9 +1,9 @@
 FROM cyclus/cycamore:stable
 
-RUN apt-get update && apt-get install -y ruby ruby-dev postgresql-client libpq-dev
+RUN apt-get update && apt-get install -y ruby ruby-dev postgresql-client libpq-dev libsqlite3-dev
 RUN gem install bundler
 
-COPY Gemfile* /tmp/
+COPY Gemfile /tmp/
 WORKDIR /tmp
 RUN bundle update && bundle install
 

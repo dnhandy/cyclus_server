@@ -1,9 +1,9 @@
 FROM ruby:alpine
 
-RUN apk add --update ruby-dev build-base postgresql-client postgresql-dev
+RUN apk add --update ruby-dev build-base postgresql-client postgresql-dev sqlite-dev
 RUN gem install bundler
 
-COPY Gemfile* /tmp/
+COPY Gemfile /tmp/
 WORKDIR /tmp
 RUN bundle update && bundle install
 

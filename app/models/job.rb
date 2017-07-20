@@ -4,11 +4,13 @@ class Job < ApplicationRecord
   belongs_to :input_file
 
   def output_file_size
-    self.output_file.size
+    return 0 if (self.output_file.nil?)
+    return self.output_file.size
   end
 
   def output_file_sha1
-    Digest::SHA1.hexdigest(self.output_file)
+    return "" if self.output_file.nil?
+    return Digest::SHA1.hexdigest(self.output_file)
   end
 
   def input

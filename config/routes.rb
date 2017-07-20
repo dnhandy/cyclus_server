@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  resources :query_types
+  resources :queries do
+      member do
+        get :execute
+      end
+  end
+
   resources :input_files do
     collection do
       post :refresh
